@@ -34,7 +34,7 @@ const popularSongs = [
   },
 ];
 
-export default function Vista1() {
+export default function Vista1({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   return (
@@ -42,7 +42,7 @@ export default function Vista1() {
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
-        {/* Header */}
+        {}
         <View style={styles.header}>
           <Text style={styles.greeting}>
             Bienvenido, <Text style={styles.name}>Usuario</Text>
@@ -57,7 +57,7 @@ export default function Vista1() {
           </View>
         </View>
 
-        {/* Categories */}
+        {}
         <Text style={styles.sectionTitle}>Seleciona la categoria</Text>
         <ScrollView
           horizontal
@@ -85,7 +85,7 @@ export default function Vista1() {
           })}
         </ScrollView>
 
-        {/* Popular Songs */}
+        {}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Canciones Populares</Text>
           <TouchableOpacity style={styles.seeAllRow}>
@@ -100,7 +100,11 @@ export default function Vista1() {
           contentContainerStyle={styles.songsRow}
         >
           {popularSongs.map((song) => (
-            <TouchableOpacity key={song.id} style={styles.songCard}>
+            <TouchableOpacity
+              key={song.id}
+              style={styles.songCard}
+              onPress={() => navigation.navigate('Vista2', { song })}
+            >
               <Image
                 source={typeof song.image === 'string' ? { uri: song.image } : song.image}
                 style={styles.songImage}
@@ -112,7 +116,7 @@ export default function Vista1() {
           ))}
         </ScrollView>
 
-        {/* New Collection */}
+        {}
         <Text style={[styles.sectionTitle, { marginTop: 24 }]}>Nueva coleccion</Text>
         <ScrollView
           horizontal
@@ -143,7 +147,7 @@ export default function Vista1() {
           </View>
         </ScrollView>
 
-        {/* Playlist */}
+        {}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Playlist</Text>
           <TouchableOpacity style={styles.seeAllRow}>
@@ -155,13 +159,13 @@ export default function Vista1() {
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      {/* Bottom Navigation */}
+      {}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.homeButton}>
           <Ionicons name="home" size={18} color="#000" />
           <Text style={styles.homeButtonText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Vista3')}>
           <Feather name="search" size={22} color="#9CA3AF" />
         </TouchableOpacity>
         <TouchableOpacity>
