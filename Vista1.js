@@ -10,32 +10,14 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { songs as popularSongs } from './songs';
+import { usePlaylists, formatSongCount } from './PlaylistContext';
 
 const categories = ['Todas', 'Rock', 'Blues', 'Alternativo', 'Hip Hop'];
 
-const popularSongs = [
-  {
-    id: '1',
-    title: 'ROY',
-    artist: 'NSQK',
-    image: require('./assets/ROY.jpg'),
-  },
-  {
-    id: '2',
-    title: 'Parachutes',
-    artist: 'Coldplay',
-    image: require('./assets/parachutes.jpg'),
-  },
-  {
-    id: '3',
-    title: 'Significant Other',
-    artist: 'Limp Bizkit',
-    image: require('./assets/Significant Other.jpg'),
-  },
-];
-
 export default function Vista1({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { playlists } = usePlaylists();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -103,7 +85,7 @@ export default function Vista1({ navigation }) {
             <TouchableOpacity
               key={song.id}
               style={styles.songCard}
-              onPress={() => navigation.navigate('Vista2', { song })}
+              onPress={() => navigation.navigate('Vista2', { songId: song.id })}
             >
               <Image
                 source={typeof song.image === 'string' ? { uri: song.image } : song.image}
@@ -150,11 +132,45 @@ export default function Vista1({ navigation }) {
         {}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Playlist</Text>
-          <TouchableOpacity style={styles.seeAllRow}>
+          <TouchableOpacity
+            style={styles.seeAllRow}
+            onPress={() => navigation.navigate('Vista4')}
+          >
             <Text style={styles.seeAll}>Mas</Text>
             <Feather name="chevron-right" size={14} color="#9CA3AF" />
           </TouchableOpacity>
         </View>
+
+        {playlists.length === 0 ? (
+          <TouchableOpacity
+            style={styles.emptyPlaylist}
+            onPress={() => navigation.navigate('Vista4')}
+          >
+            <Ionicons name="add-circle-outline" size={22} color="#D6FF3F" />
+            <Text style={styles.emptyPlaylistText}>Crea tu primera playlist</Text>
+          </TouchableOpacity>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.songsRow}
+          >
+            {playlists.map((playlist) => (
+              <TouchableOpacity
+                key={playlist.id}
+                style={styles.songCard}
+                onPress={() => navigation.navigate('Vista5', { playlistId: playlist.id })}
+              >
+                <View style={styles.playlistCover}>
+                  <Ionicons name="musical-notes" size={40} color="#000" />
+                </View>
+                <View style={styles.songAccentBar} />
+                <Text style={styles.songTitle} numberOfLines={1}>{playlist.name}</Text>
+                <Text style={styles.songArtist}>{formatSongCount(playlist.songIds.length)}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
 
         <View style={{ height: 100 }} />
       </ScrollView>
@@ -171,7 +187,7 @@ export default function Vista1({ navigation }) {
         <TouchableOpacity>
           <Ionicons name="add-circle-outline" size={24} color="#9CA3AF" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Vista4')}>
           <Ionicons name="albums-outline" size={22} color="#9CA3AF" />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -362,5 +378,27 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginLeft: 6,
     fontSize: 13,
+  },
+  playlistCover: {
+    width: 130,
+    height: 130,
+    borderRadius: 14,
+    marginBottom: 8,
+    backgroundColor: '#D6FF3F',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyPlaylist: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1C1C1E',
+    borderRadius: 14,
+    padding: 16,
+  },
+  emptyPlaylistText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 10,
   },
 });
