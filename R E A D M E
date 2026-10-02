@@ -1,0 +1,29 @@
+Prompt y plan utilizado para esta actividad
+
+Prompt utilizado
+
+Implementa una funcionalidad que permita:
+
+Crear una nueva playlist y asignarle un nombre
+Agregar canciones existentes de la aplicación.
+Visualizar la playlist creada.
+Mostrar las canciones que contiene.
+Debe utilizar React Native Paper.
+
+Consideraciones
+
+No utilizar una API externa.
+No instalar nuevas librerías.
+Reutilizar los componentes y datos existentes.
+No eliminar funcionalidades actuales.
+La playlist debe conservarse mientras el usuario navega por la aplicación.
+
+Plan propuesto por el agente
+
+La app ya contaba con tres pantallas (Vista1, Vista2, Vista3) navegando con React Navigation, y un arreglo popularSongs definido dentro de Vista1.js.
+
+Extraer los datos de canciones a un módulo compartido 
+Crear un estado global de playlists con React ContextPantalla Mis playlist
+Pantalla de detalle de playlist 
+Integración con las pantallas existentes, sin romper nada
+
